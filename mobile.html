@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile</title>
+    <style>
+        form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 50px auto;
+  max-width: 400px;
+  background-color: #f5f5f5;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+}
+
+input[type="text"],
+input[type="number"] {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+}
+
+input[type="submit"] {
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: #555;
+}
+#showmobile {
+  background-color: #008CBA;
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+/* Style for the parent div */
+#maindiv {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Style for each child div */
+#maindiv div {
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 300px;
+  background-color: #fff;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+#brand {
+  font-size: 28px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+#model {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+#days {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #666;
+}
+
+#og {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #666;
+}
+
+#sell {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #333;
+  font-weight: bold;
+}
+
+
+    </style>
+</head>
+<body>
+    <!-- brand:String,
+    model:String,
+    daysUsed:Number,
+    ogprice:Number,
+    sellingprice:Number, -->
+    <form >
+            <input id="brand" type="text" placeholder="Enter Mobile Brand">
+            <input id="model" type="text" placeholder="Enter model number">
+             <input id="daysused" type="number" placeholder="Number of Days Used">
+             <input id="ogprice" type="number" placeholder="enter original price">
+             <input id="sellprice" type="number" placeholder="enter selling price">
+             <input type="submit" value="Upload">
+         
+    </form>
+
+
+    <button id="showmobile">click to view</button>
+
+         <div id="maindiv"></div>
+</body>
+</html>
+
+
+<script>
+    let form = document.querySelector("form")
+    let token = localStorage.getItem("token")
+    form.addEventListener("submit", (e)=>{
+         e.preventDefault()
+
+         let brand = form.brand.value
+         let model = form.model.value
+         let daysUsed = form.daysused.value
+         let ogprice = form.ogprice.value
+         let sellingprice = form.sellprice.value
+
+
+         let mobobj = {
+             brand,
+             model,
+             daysUsed,
+             ogprice,
+             sellingprice
+        }
+
+        fetch("https://thankful-puce-fedora.cyclic.app/mobile/add", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "authorization": token
+        },
+        body: JSON.stringify(mobobj),
+    }).then((response) => response.json())
+        .then((data) => {
+            console.log("Success:", data);
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
+        alert("Congrats Mobile Uploded Succesfull")
+    //      h1.innerText = "Registration Successfull Buddy!!"
+    // alert("Registration is done!")
+    // window.location.href = "login.html"
+    })
+
+
+    //showmobilebutton
+
+    let btn = document.getElementById("showmobile")
+    let maindiv = document.getElementById("maindiv")
+
+    btn.addEventListener("click", ()=>{
+        fetch("https://thankful-puce-fedora.cyclic.app/mobile/all", {
+            method:"GET",
+            headers:{
+                "authorization": token
+            }
+        }).then(res => res.json())
+        .then((data)=>{
+            console.log(data[0].brand)
+            display(data)
+        }).catch((err)=>{
+            console.log(err.message)
+        })
+
+    })
+
+function  display(data){
+    let div = document.createElement("div")
+    let img = document.createElement("img")
+    let brand = document.createElement("h1")
+    let model = document.createElement("h2")
+    let days = document.createElement("h3")
+    let og = document.createElement("h3")
+    let sell = document.createElement("h3")
+
+    data.map((ele, ind)=>{
+        img.setAttribute("src", "https://img.freepik.com/free-vector/home-screen-concept-illustration_114360-4703.jpg?size=338&ext=jpg&ga=GA1.2.1000968404.1679817053&semt=ais")
+        brand.innerText = ` Brand: ${ele.brand}`
+        brand.setAttribute("id", "brand")
+        model.textContent = ` Model: ${ele.model}`
+        model.setAttribute("id", "model")
+        days.textContent = `Number of Days Used: ${ele.daysUsed}`
+        days.setAttribute("id", "days")
+        og.textContent = `Orginal Price:  ${ele.ogprice}`
+        og.setAttribute("id", "og")
+        sell.textContent = `Selling Price:  ${ele.sellingprice}`
+        sell.setAttribute("id", "sell")
+
+        div.append(img, brand, model, days,og,sell)
+        maindiv.append(div)
+    })
+}
+
+</script>

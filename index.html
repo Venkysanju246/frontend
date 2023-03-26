@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOME</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="mainnav">
+        <div class="navbar">
+              <a href="#" id="home">Home</a>
+              <a href="./mobile.html" id="mobile">Mobile</a>
+              <a href="./index.html" id="signup">Signup</a>
+              <a href="./login.html" id="signin">Signin</a>
+              <a href="#" id="logout">Logout</a>
+        </div>
+    </div>
+
+    <div class="heroes">
+            <img src="https://www.quickmobile.in/assets/images/banner/1600x500-01.png" alt="">
+    </div>
+    <div class="mid">
+           <img src="https://www.quickmobile.in/assets/images/sell_used_phone_ourservices.webp" alt="">
+           <img src="https://www.quickmobile.in/assets/images/buy_used_phone_ourservices.webp" alt="">
+           <img src="https://www.quickmobile.in/assets/images/repair_phone_ourservices.webp" alt="">
+    </div>
+</body>
+</html>
+
+<script>
+    const username = localStorage.getItem("username")
+    let signin = document.getElementById("signin")
+    let signup = document.getElementById("signup")
+    let logout = document.getElementById("logout")
+
+  
+
+     if(username){
+         signin.innerText = username
+         logout.style.display = "block"
+         signup.style.display = "none"
+     }
+     logout.addEventListener("click", ()=>{
+        logout.innerText= "Signin"
+        localStorage.removeItem("token")
+        localStorage.removeItem("username")
+        signin.innerText = "Signup"
+     })
+
+   
+
+</script>
