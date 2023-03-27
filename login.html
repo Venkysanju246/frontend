@@ -83,7 +83,7 @@ input[type="submit"]:hover {
             localStorage.setItem("token", data.token)
             localStorage.setItem("username", data.username)
             alert("login sucess")
-            window.location.href = "http://127.0.0.1:5500/frontend/login.html"
+            window.location.assign("index.html");
         })
         .catch((error) => {
             console.error("Error:", error);
