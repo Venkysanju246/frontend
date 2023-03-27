@@ -30,9 +30,11 @@ let locationel = form.location.value
         .catch((error) => {
             console.error("Error:", error);
         });
-         h1.innerText = "Registration Successfull Buddy!!"
     alert("Registration is done!")
-   window.location.href = "login.html"
+    h1.innerText = "Registration Successfull!!, redirecting...."
+    setTimeout(()=>{
+        window.location.assign("login.html");
+    },5000)
 
     // fetch("http://localhost:8080/user/register",{
     //     method:"POST",
